@@ -5,7 +5,6 @@
     { "source": "/data", "destination": "/data.html" },
     { "source": "/meritz", "destination": "/meritz-trust-stack.html" }
   ],
-  "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
     {
