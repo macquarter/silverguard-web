@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>SILVERGUARD · Admin Console</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+<style>
+  :root{
+    --bg:#070A14; --bg-2:#0C111E; --surface:#121828; --surface-2:#0f1626;
+    --line:#1e2a40; --ink:#F5F7FA; --ink-soft:#C7CCD8; --mute:#8A93A6;
+    --cyan:#00D9FF; --lime:#C5F82A; --amber:#FFB547; --red:#FF5A6F;
+    --sans:'Pretendard Variable',system-ui,sans-serif;
+    --mono:ui-monospace,'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;font-size:14px}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+
+  /* Topbar */
+  .top{position:sticky;top:0;z-index:10;background:rgba(7,10,20,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .top-in{display:flex;align-items:center;gap:14px;height:62px}
+  .logo{font-weight:800;letter-spacing:.5px;font-size:18px}
+  .logo b{color:var(--cyan)}
+  .badge{font-family:var(--mono);font-size:10px;border:1px solid var(--cyan);color:var(--cyan);border-radius:5px;padding:3px 7px}
+  .demo{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--amber);border:1px dashed #4a3a16;border-radius:6px;padding:5px 10px}
+  .who{display:flex;align-items:center;gap:8px;color:var(--ink-soft);font-size:13px}
+  .who .av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--lime));color:#06121a;display:grid;place-items:center;font-weight:800;font-size:12px}
+
+  /* Tabs */
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-top:18px}
+  .tab{background:none;border:none;color:var(--mute);font-family:var(--sans);font-size:14px;font-weight:600;padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;transition:.15s}
+  .tab:hover{color:var(--ink-soft)}
+  .tab.on{color:var(--ink);border-bottom-color:var(--cyan)}
+
+  section.pane{display:none;padding:26px 0 60px}
+  section.pane.on{display:block}
+
+  h2.sec{font-size:15px;color:var(--ink);margin:0 0 14px;display:flex;align-items:center;gap:9px}
+  h2.sec::before{content:'';width:4px;height:15px;background:var(--cyan);border-radius:2px}
+  .sub{color:var(--mute);font-size:12.5px;margin:-8px 0 18px}
+
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:26px}
+  @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .kpi .k{font-family:var(--mono);font-size:10.5px;color:var(--mute);letter-spacing:.5px;text-transform:uppercase}
+  .kpi .v{font-size:30px;font-weight:800;margin-top:8px;line-height:1}
+  .kpi .d{font-size:11.5px;margin-top:8px;color:var(--ink-soft)}
+  .up{color:var(--lime)} .down{color:var(--red)} .cy{color:var(--cyan)} .am{color:var(--amber)}
+
+  /* Card / table */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .card + .card{margin-top:20px}
+  .card-hd{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .card-hd h3{font-size:13.5px}
+  .card-hd .cnt{font-family:var(--mono);font-size:11px;color:var(--mute)}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:12px 16px;font-size:13px;border-bottom:1px solid #16203200;border-bottom:1px solid #141d2e}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--mute);background:var(--surface-2)}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#0f1730}
+  td.q{color:var(--ink-soft);max-width:340px}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;font-family:var(--mono)}
+  .p-new{background:rgba(0,217,255,.13);color:var(--cyan)}
+  .p-prog{background:rgba(255,181,71,.14);color:var(--amber)}
+  .p-done{background:rgba(197,248,42,.13);color:var(--lime)}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;background:#15203a;color:var(--ink-soft);border:1px solid #243450;font-family:var(--mono)}
+  .yes{color:var(--lime);font-weight:700} .no{color:var(--mute)}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .fchip{background:var(--surface);border:1px solid var(--line);color:var(--ink-soft);border-radius:30px;padding:7px 14px;font-size:12.5px;cursor:pointer}
+  .fchip.on{border-color:var(--cyan);color:var(--cyan)}
+
+  /* AI bars */
+  .bars{display:flex;flex-direction:column;gap:13px;padding:18px}
+  .bar-row{display:grid;grid-template-columns:130px 1fr 44px;align-items:center;gap:12px}
+  .bar-row .lbl{font-size:12.5px;color:var(--ink-soft)}
+  .bar-track{height:9px;background:#11192a;border-radius:6px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--cyan),var(--lime))}
+  .bar-row .num{font-family:var(--mono);font-size:12px;color:var(--mute);text-align:right}
+  .insights{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+  @media(max-width:760px){.insights{grid-template-columns:1fr}}
+  .ins{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:10px;padding:15px 16px}
+  .ins .t{font-size:10.5px;font-family:var(--mono);color:var(--cyan);letter-spacing:.4px;text-transform:uppercase;margin-bottom:7px}
+  .ins p{color:var(--ink-soft);font-size:13px;line-height:1.6}
+  .ins.am{border-left-color:var(--amber)} .ins.am .t{color:var(--amber)}
+  .ins.lm{border-left-color:var(--lime)} .ins.lm .t{color:var(--lime)}
+  .foot{color:var(--mute);font-size:11px;font-family:var(--mono);text-align:center;padding:24px 0 40px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <div class="logo">SILVER<b>GUARD</b></div>
+    <span class="badge">ADMIN</span>
+    <span class="demo">● DEMO · CMS 연동 예정</span>
+    <div class="who"><span class="av">조</span>관리자</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="tabs">
+    <button class="tab on" data-t="dash">대시보드</button>
+    <button class="tab" data-t="req">요청 관리</button>
+    <button class="tab" data-t="chat">챗봇 질문</button>
+    <button class="tab" data-t="ai">AI 분석</button>
+  </nav>
+
+  <!-- DASHBOARD -->
+  <section class="pane on" id="dash">
+    <div class="kpis">
+      <div class="kpi"><div class="k">총 요청</div><div class="v">42</div><div class="d up">▲ 8 이번 주</div></div>
+      <div class="kpi"><div class="k">미처리</div><div class="v am">7</div><div class="d">대응 대기</div></div>
+      <div class="kpi"><div class="k">챗봇 질문</div><div class="v cy" id="kpi-q">128</div><div class="d up">▲ 23 오늘</div></div>
+      <div class="kpi"><div class="k">AI 자동응답률</div><div class="v">91%</div><div class="d up">▲ 4%p</div></div>
+      <div class="kpi"><div class="k">평균 응답</div><div class="v">1.2<span style="font-size:14px">초</span></div><div class="d">챗봇 기준</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h3>최근 활동</h3><span class="cnt">실시간 피드 (데모)</span></div>
+      <table><tbody id="feed"></tbody></table>
+    </div>
+  </section>
+
+  <!-- REQUESTS -->
+  <section class="pane" id="req">
+    <h2 class="sec">요청 관리</h2>
+    <p class="sub">IR 자료 · 파일럿 도입 · 미디어 · 채용 문의가 들어오면 여기서 확인·처리합니다.</p>
+    <div class="filters" id="req-filters"></div>
+    <div class="card">
+      <div class="card-hd"><h3>요청 목록</h3><span class="cnt" id="req-cnt"></span></div>
+      <table>
+        <thead><tr><th>접수일</th><th>유형</th><th>소속</th><th>연락처</th><th>내용</th><th>AI 분류</th><th>상태</th></tr></thead>
+        <tbody id="req-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CHATBOT QUESTIONS -->
+  <section class="pane" id="chat">
+    <h2 class="sec">챗봇 질문</h2>
+    <p class="sub">방문자가 실버가드 AI 챗봇에 물어본 질문입니다. 이 브라우저에서 실제로 물어본 질문이 있으면 상단에 함께 표시됩니다.</p>
+    <div class="card">
+      <div class="card-hd"><h3>질문 로그</h3><span class="cnt" id="chat-cnt"></span></div>
+      <table>
+        <thead><tr><th>시각</th><th>질문</th><th>AI 카테고리</th><th>자동응답</th><th>만족도</th></tr></thead>
+        <tbody id="chat-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- AI ANALYSIS -->
+  <section class="pane" id="ai">
+    <h2 class="sec">AI 분석</h2>
+    <p class="sub">챗봇 질문을 AI가 자동 분류한 결과와 인사이트입니다.</p>
+    <div class="card">
+      <div class="card-hd"><h3>카테고리별 질문 분포</h3><span class="cnt">최근 30일</span></div>
+      <div class="bars" id="ai-bars"></div>
+    </div>
+    <div class="insights">
+      <div class="ins"><div class="t">▲ 핵심 관심사</div><p><b>도입·파일럿 문의</b>가 전체 질문의 28%로 가장 많습니다. 구매 의향이 높은 리드 신호로, 빠른 후속 대응을 권장합니다.</p></div>
+      <div class="ins am"><div class="t">⚑ 대응 필요</div><p><b>가격·견적</b> 관련 질문에 챗봇 자동응답률이 낮습니다(64%). 표준 견적 안내 답변 추가가 필요합니다.</p></div>
+      <div class="ins lm"><div class="t">✓ 잘 작동 중</div><p><b>회사 소개·실적</b> 질문은 자동응답 만족도가 높습니다(96%). 현재 지식베이스가 잘 커버하고 있습니다.</p></div>
+      <div class="ins"><div class="t">◷ 추후 연동</div><p>CMS·백엔드 연동 시 이 화면은 실제 DB 데이터와 실시간 AI 요약으로 자동 갱신됩니다. (현재는 데모 데이터)</p></div>
+    </div>
+  </section>
+
+  <div class="foot">SILVERGUARD ADMIN · 정적 HTML 목업 · 데이터 연동(CMS)은 다음 단계</div>
+</div>
+
+<script>
+/* ---- 샘플 데이터 (CMS 연동 전 데모) ---- */
+var REQUESTS = [
+  {d:"2026-05-21",type:"IR",org:"한빛벤처스",contact:"010-2841-0192",msg:"시드 라운드 IR 자료 요청",ai:"투자",st:"new"},
+  {d:"2026-05-21",type:"파일럿",org:"화성시청 안전정책과",contact:"jdkim@hs.go.kr",msg:"시설물 점검 파일럿 협의 희망",ai:"공공·B2G",st:"new"},
+  {d:"2026-05-20",type:"파일럿",org:"대성시설관리",contact:"010-7720-3318",msg:"600+ Pro-Agent 단가/커버리지 문의",ai:"가격",st:"prog"},
+  {d:"2026-05-20",type:"미디어",org:"이데일리",contact:"reporter@edaily.co.kr",msg:"KBS 방영 관련 인터뷰 요청",ai:"미디어",st:"prog"},
+  {d:"2026-05-19",type:"채용",org:"개인",contact:"sune****@naver.com",msg:"시니어 Pro-Agent 지원 방법",ai:"채용",st:"done"},
+  {d:"2026-05-19",type:"IR",org:"코너스톤파트너스",contact:"contact@cornerstone.vc",msg:"Pre-A 검토용 데이터룸 요청",ai:"투자",st:"done"},
+  {d:"2026-05-18",type:"파일럿",org:"메리츠화재 제휴팀",contact:"010-3391-7740",msg:"단체보험 크로스셀 구조 미팅",ai:"제휴",st:"done"}
+];
+var STT={new:["신규","p-new"],prog:["처리중","p-prog"],done:["완료","p-done"]};
+
+var QUESTIONS = [
+  {t:"방금 전",q:"파일럿 도입하려면 어떻게 하나요?",cat:"도입·파일럿",auto:true,sat:"👍"},
+  {t:"3분 전",q:"실버가드가 뭐하는 회사예요?",cat:"회사 소개",auto:true,sat:"👍"},
+  {t:"11분 전",q:"특허는 몇 건 있나요?",cat:"특허·기술",auto:true,sat:"👍"},
+  {t:"24분 전",q:"가격이 어떻게 되나요?",cat:"가격",auto:false,sat:"—"},
+  {t:"38분 전",q:"600명 시니어는 어디서 구하나요?",cat:"시니어·인력",auto:true,sat:"👍"},
+  {t:"52분 전",q:"KBS에 나왔다는데 사실인가요?",cat:"검증·신뢰",auto:true,sat:"👍"},
+  {t:"1시간 전",q:"지자체랑 협업 사례 있어요?",cat:"고객·레퍼런스",auto:true,sat:"👍"},
+  {t:"2시간 전",q:"IR 자료 받아볼 수 있을까요?",cat:"투자·IR",auto:true,sat:"👍"}
+];
+
+var AICATS = [
+  {l:"도입·파일럿",n:36},{l:"회사 소개",n:24},{l:"실적·지표",n:19},
+  {l:"특허·기술",n:15},{l:"투자·IR",n:13},{l:"가격",n:11},{l:"검증·신뢰",n:10}
+];
+
+/* ---- 렌더 ---- */
+function feed(){
+  var rows=[
+    ["방금","cy","챗봇","‘파일럿 도입’ 질문 — AI 자동응답 완료"],
+    ["2분 전","am","요청","화성시청 파일럿 협의 요청 접수"],
+    ["14분 전","cy","챗봇","‘특허 몇 건’ 질문 — AI 자동응답 완료"],
+    ["31분 전","up","요청","코너스톤파트너스 IR 요청 → 완료 처리"],
+    ["1시간 전","am","요청","이데일리 인터뷰 요청 접수"]
+  ];
+  document.getElementById('feed').innerHTML=rows.map(function(r){
+    return "<tr><td style='font-family:var(--mono);color:var(--mute);width:90px'>"+r[0]+"</td>"+
+      "<td style='width:80px'><span class='tag "+r[1]+"'>"+r[2]+"</span></td><td class='q'>"+r[3]+"</td></tr>";
+  }).join('');
+}
+
+var reqFilter="all";
+function renderReq(){
+  var f=document.getElementById('req-filters');
+  var types=["all","IR","파일럿","미디어","채용"];
+  f.innerHTML=types.map(function(t){return "<button class='fchip"+(t===reqFilter?" on":"")+"' data-f='"+t+"'>"+(t==="all"?"전체":t)+"</button>";}).join('');
+  f.querySelectorAll('.fchip').forEach(function(b){b.onclick=function(){reqFilter=b.dataset.f;renderReq();};});
+  var list=REQUESTS.filter(function(r){return reqFilter==="all"||r.type===reqFilter;});
+  document.getElementById('req-cnt').textContent=list.length+"건";
+  document.getElementById('req-body').innerHTML=list.map(function(r){
+    var s=STT[r.st];
+    return "<tr><td style='font-family:var(--mono);color:var(--mute)'>"+r.d+"</td>"+
+      "<td><span class='tag'>"+r.type+"</span></td><td>"+r.org+"</td>"+
+      "<td style='font-family:var(--mono);font-size:12px;color:var(--ink-soft)'>"+r.contact+"</td>"+
+      "<td class='q'>"+r.msg+"</td><td><span class='tag cy'>"+r.ai+"</span></td>"+
+      "<td><span class='pill "+s[1]+"'>"+s[0]+"</span></td></tr>";
+  }).join('');
+}
+
+function renderChat(){
+  var live=[];
+  try{
+    var arr=JSON.parse(localStorage.getItem('sg_chat_log')||"[]");
+    live=arr.slice().reverse().slice(0,20).map(function(x){
+      return {t:"내 브라우저",q:x.q,cat:catName(x.cat),auto:!!x.cat,sat:"—",mine:true};
+    });
+  }catch(e){}
+  var all=live.concat(QUESTIONS);
+  document.getElementById('chat-cnt').textContent=all.length+"건"+(live.length?(" · 내 질문 "+live.length):"");
+  document.getElementById('chat-body').innerHTML=all.map(function(x){
+    return "<tr><td style='font-family:var(--mono);color:"+(x.mine?"var(--cyan)":"var(--mute)")+";width:110px'>"+x.t+"</td>"+
+      "<td class='q'>"+esc(x.q)+"</td><td><span class='tag'>"+x.cat+"</span></td>"+
+      "<td>"+(x.auto?"<span class='yes'>자동</span>":"<span class='no'>수동 필요</span>")+"</td>"+
+      "<td>"+x.sat+"</td></tr>";
+  }).join('');
+}
+function catName(id){var m={intro:"회사 소개",solution:"솔루션",agent:"시니어·인력",proof:"실적·지표",tech:"특허·기술",trust:"검증·신뢰",meritz:"제휴·보험",clients:"고객·레퍼런스",control:"제품(Control)",data:"제품(Data)",ir:"투자·IR",pilot:"도입·파일럿",company:"회사 정보"};return m[id]||"미분류";}
+function esc(s){return (s||"").replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+
+function renderAI(){
+  var max=Math.max.apply(null,AICATS.map(function(c){return c.n;}));
+  document.getElementById('ai-bars').innerHTML=AICATS.map(function(c){
+    var w=Math.round(c.n/max*100);
+    return "<div class='bar-row'><div class='lbl'>"+c.l+"</div>"+
+      "<div class='bar-track'><div class='bar-fill' style='width:"+w+"%'></div></div>"+
+      "<div class='num'>"+c.n+"</div></div>";
+  }).join('');
+}
+
+document.querySelectorAll('.tab').forEach(function(t){
+  t.onclick=function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); document.getElementById(t.dataset.t).classList.add('on');
+  };
+});
+
+feed(); renderReq(); renderChat(); renderAI();
+</script>
+</body>
+</html>
