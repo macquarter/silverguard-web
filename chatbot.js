@@ -69,6 +69,23 @@
     }catch(e){}
   }
 
+  // 연락처(전화/이메일) 감지 + 접수 저장
+  var RE_EMAIL=/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+  var RE_PHONE=/(01[0-9][-.\s]?\d{3,4}[-.\s]?\d{4})|(0\d{1,2}[-.\s]?\d{3,4}[-.\s]?\d{4})/;
+  function detectContact(s){
+    var email=(s.match(RE_EMAIL)||[])[0]||"";
+    var phone=(s.match(RE_PHONE)||[])[0]||"";
+    return (email||phone) ? {email:email, phone:phone} : null;
+  }
+  function saveLead(msg, c){
+    try{
+      var key="sg_leads";
+      var arr=JSON.parse(localStorage.getItem(key)||"[]");
+      arr.push({ msg:msg, email:c.email, phone:c.phone, t:new Date().toISOString(), st:"new" });
+      localStorage.setItem(key, JSON.stringify(arr.slice(-200)));
+    }catch(e){}
+  }
+
   var CSS = "\
   #sgbot-launch{position:fixed;right:22px;bottom:22px;z-index:99998;display:flex;align-items:center;gap:9px;\
     background:#00D9FF;color:#06121a;border:none;border-radius:40px;padding:13px 18px;font-weight:700;\
@@ -140,7 +157,19 @@
 
     launch.onclick=open;
     panel.querySelector('.sgbot-x').onclick=close;
-    form.onsubmit=function(e){ e.preventDefault(); var q=input.value.trim(); if(!q) return; push(q,'user'); input.value=''; botReply(answer(q)); };
+    form.onsubmit=function(e){
+      e.preventDefault();
+      var q=input.value.trim(); if(!q) return;
+      push(q,'user'); input.value='';
+      var c=detectContact(q);
+      if(c){
+        saveLead(q,c);
+        var via=(c.email&&c.phone)?(c.email+" / "+c.phone):(c.email||c.phone);
+        botReply("접수가 완료되었습니다! \u2705<br>남겨주신 연락처(<b>"+via+"</b>)로 담당자가 빠르게 연락드리겠습니다.<br>소속과 관심 분야를 함께 남겨주시면 더 정확히 안내해 드려요. \uD83D\uDE4F");
+      } else {
+        botReply(answer(q));
+      }
+    };
   }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);

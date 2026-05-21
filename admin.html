@@ -113,8 +113,8 @@
   <!-- DASHBOARD -->
   <section class="pane on" id="dash">
     <div class="kpis">
-      <div class="kpi"><div class="k">총 요청</div><div class="v">42</div><div class="d up">▲ 8 이번 주</div></div>
-      <div class="kpi"><div class="k">미처리</div><div class="v am">7</div><div class="d">대응 대기</div></div>
+      <div class="kpi"><div class="k">총 요청</div><div class="v" id="kpi-req">42</div><div class="d up">▲ 8 이번 주</div></div>
+      <div class="kpi"><div class="k">미처리</div><div class="v am" id="kpi-pending">7</div><div class="d">대응 대기</div></div>
       <div class="kpi"><div class="k">챗봇 질문</div><div class="v cy" id="kpi-q">128</div><div class="d up">▲ 23 오늘</div></div>
       <div class="kpi"><div class="k">AI 자동응답률</div><div class="v">91%</div><div class="d up">▲ 4%p</div></div>
       <div class="kpi"><div class="k">평균 응답</div><div class="v">1.2<span style="font-size:14px">초</span></div><div class="d">챗봇 기준</div></div>
@@ -210,27 +210,42 @@ function feed(){
     ["31분 전","up","요청","코너스톤파트너스 IR 요청 → 완료 처리"],
     ["1시간 전","am","요청","이데일리 인터뷰 요청 접수"]
   ];
+  var _leads=getLeads();
+  if(_leads.length) rows.unshift(["방금","cy","접수","챗봇으로 연락처 "+_leads.length+"건 접수 — 확인 필요"]);
   document.getElementById('feed').innerHTML=rows.map(function(r){
     return "<tr><td style='font-family:var(--mono);color:var(--mute);width:90px'>"+r[0]+"</td>"+
       "<td style='width:80px'><span class='tag "+r[1]+"'>"+r[2]+"</span></td><td class='q'>"+r[3]+"</td></tr>";
   }).join('');
 }
 
+function getLeads(){
+  try{
+    var arr=JSON.parse(localStorage.getItem('sg_leads')||"[]");
+    return arr.slice().reverse().map(function(x){
+      var d=(x.t||"").slice(0,10)||"-";
+      var contact=(x.email&&x.phone)?(x.email+" / "+x.phone):(x.email||x.phone||"-");
+      return {d:d,type:"챗봇 접수",org:"챗봇 방문자",contact:contact,msg:x.msg||"",ai:"상담요청",st:x.st||"new",mine:true};
+    });
+  }catch(e){return [];}
+}
 var reqFilter="all";
 function renderReq(){
+  var leads=getLeads();
   var f=document.getElementById('req-filters');
-  var types=["all","IR","파일럿","미디어","채용"];
+  var types=["all","챗봇 접수","IR","파일럿","미디어","채용"];
   f.innerHTML=types.map(function(t){return "<button class='fchip"+(t===reqFilter?" on":"")+"' data-f='"+t+"'>"+(t==="all"?"전체":t)+"</button>";}).join('');
   f.querySelectorAll('.fchip').forEach(function(b){b.onclick=function(){reqFilter=b.dataset.f;renderReq();};});
-  var list=REQUESTS.filter(function(r){return reqFilter==="all"||r.type===reqFilter;});
-  document.getElementById('req-cnt').textContent=list.length+"건";
+  var all=leads.concat(REQUESTS);
+  var list=all.filter(function(r){return reqFilter==="all"||r.type===reqFilter;});
+  document.getElementById('req-cnt').textContent=list.length+"건"+(leads.length?(" · 챗봇 접수 "+leads.length):"");
   document.getElementById('req-body').innerHTML=list.map(function(r){
-    var s=STT[r.st];
+    var st=STT[r.st]||STT.new;
+    var typeTag=r.mine?"<span class='tag cy'>"+r.type+"</span>":"<span class='tag'>"+r.type+"</span>";
     return "<tr><td style='font-family:var(--mono);color:var(--mute)'>"+r.d+"</td>"+
-      "<td><span class='tag'>"+r.type+"</span></td><td>"+r.org+"</td>"+
-      "<td style='font-family:var(--mono);font-size:12px;color:var(--ink-soft)'>"+r.contact+"</td>"+
-      "<td class='q'>"+r.msg+"</td><td><span class='tag cy'>"+r.ai+"</span></td>"+
-      "<td><span class='pill "+s[1]+"'>"+s[0]+"</span></td></tr>";
+      "<td>"+typeTag+"</td><td>"+r.org+"</td>"+
+      "<td style='font-family:var(--mono);font-size:12px;color:var(--ink-soft)'>"+esc(r.contact)+"</td>"+
+      "<td class='q'>"+esc(r.msg)+"</td><td><span class='tag cy'>"+r.ai+"</span></td>"+
+      "<td><span class='pill "+st[1]+"'>"+st[0]+"</span></td></tr>";
   }).join('');
 }
 
@@ -272,7 +287,8 @@ document.querySelectorAll('.tab').forEach(function(t){
   };
 });
 
-feed(); renderReq(); renderChat(); renderAI();
+function updateKPIs(){var L=getLeads();var a=document.getElementById('kpi-req');if(a)a.textContent=42+L.length;var b=document.getElementById('kpi-pending');if(b)b.textContent=7+L.length;try{var q=JSON.parse(localStorage.getItem('sg_chat_log')||"[]");var c=document.getElementById('kpi-q');if(c)c.textContent=128+q.length;}catch(e){}}
+feed(); renderReq(); renderChat(); renderAI(); updateKPIs();
 </script>
 </body>
 </html>
