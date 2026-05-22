@@ -181,7 +181,7 @@ var REQUESTS = [
   {d:"2026-05-20",type:"미디어",org:"이데일리",contact:"reporter@edaily.co.kr",msg:"KBS 방영 관련 인터뷰 요청",ai:"미디어",st:"prog"},
   {d:"2026-05-19",type:"채용",org:"개인",contact:"sune****@naver.com",msg:"시니어 Pro-Agent 지원 방법",ai:"채용",st:"done"},
   {d:"2026-05-19",type:"IR",org:"코너스톤파트너스",contact:"contact@cornerstone.vc",msg:"Pre-A 검토용 데이터룸 요청",ai:"투자",st:"done"},
-  {d:"2026-05-18",type:"파일럿",org:"메리츠화재 제휴팀",contact:"010-3391-7740",msg:"단체보험 크로스셀 구조 미팅",ai:"제휴",st:"done"}
+  {d:"2026-05-18",type:"파일럿",org:"성남시 도시안전과",contact:"an****@seongnam.go.kr",msg:"이면도로 점검 파일럿 협의",ai:"공공·B2G",st:"done"}
 ];
 var STT={new:["신규","p-new"],prog:["처리중","p-prog"],done:["완료","p-done"]};
 
@@ -266,7 +266,7 @@ function renderChat(){
       "<td>"+x.sat+"</td></tr>";
   }).join('');
 }
-function catName(id){var m={intro:"회사 소개",solution:"솔루션",agent:"시니어·인력",proof:"실적·지표",tech:"특허·기술",trust:"검증·신뢰",meritz:"제휴·보험",clients:"고객·레퍼런스",control:"제품(Control)",data:"제품(Data)",ir:"투자·IR",pilot:"도입·파일럿",company:"회사 정보"};return m[id]||"미분류";}
+function catName(id){var m={intro:"회사 소개",solution:"솔루션",agent:"시니어·인력",proof:"실적·지표",tech:"특허·기술",trust:"검증·신뢰",apply:"지원·참여",clients:"고객·레퍼런스",control:"제품(Control)",data:"제품(Data)",ir:"투자·IR",pilot:"도입·파일럿",company:"회사 정보"};return m[id]||"미분류";}
 function esc(s){return (s||"").replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
 
 function renderAI(){

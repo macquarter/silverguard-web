@@ -3,7 +3,6 @@
     { "source": "/", "destination": "/silverguard.html" },
     { "source": "/control", "destination": "/control.html" },
     { "source": "/data", "destination": "/data.html" },
-    { "source": "/meritz", "destination": "/meritz-trust-stack.html" },
     { "source": "/admin", "destination": "/admin.html" }
   ],
   "trailingSlash": false,

@@ -2504,122 +2504,7 @@ svg text{font-style:normal !important}
 </section>
 <!-- PERSONAS -->
 
-<!-- FIG.02 메리츠 신뢰 흐름도 보관 — display 안 됨. 사용하려면 template→section 한 줄만 바꾸면 됨. -->
-<template id="meritz-trust-stack-archive">
-<section class="trust-illust" aria-label="검증 · 협약 · 특허 도식">
-  <div class="trust-illust-inner">
-    <div style="display:grid;grid-template-columns:auto 1fr auto;align-items:end;gap:32px;margin-bottom:32px;padding-bottom:18px;border-bottom:1px solid var(--line)">
-      <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--mute);text-transform:uppercase"><span style="color:var(--lime);font-weight:500">━</span> CERTIFIED · INSURED · PATENTED</div>
-      <div style="font-family:var(--serif);font-size:clamp(19px, 2.4vw, 30px);line-height:1.15;letter-spacing:-0.02em;color:var(--ink);font-weight:400">제3자 검증 + 단체보험 + 특허로 <em style="font-style:normal;color:var(--lime)">3겹 안전망</em>을 구축합니다.</div>
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--cyan);text-transform:uppercase;white-space:nowrap">━ TRUST STACK</div>
-    </div>
-    
-    <svg viewBox="0 0 1440 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-      <!-- 가로 흐름선 (Pro-Agent → 검증 → 보호 → 신뢰 자산) -->
-      <line x1="80" y1="140" x2="1360" y2="140" stroke="rgba(255,255,255,0.12)" stroke-width="0.8" stroke-dasharray="4 4">
-        <animate attributeName="stroke-dashoffset" values="0;-32" dur="6s" repeatCount="indefinite"/>
-      </line>
-      
-      <!-- Step 1: Pro-Agent -->
-      <g transform="translate(180, 140)">
-        <circle r="56" fill="rgba(197,248,42,0.04)" stroke="#C5F82A" stroke-width="1.2"/>
-        <circle r="44" fill="none" stroke="rgba(197,248,42,0.3)" stroke-width="0.6" stroke-dasharray="2 2">
-          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
-        </circle>
-        <text y="-8" font-family="JetBrains Mono, monospace" font-size="9" fill="#C5F82A" text-anchor="middle" letter-spacing="0.15em">STEP 01</text>
-        <text y="10" font-family="Instrument Serif, serif" font-style="normal" font-size="22" fill="#C5F82A" text-anchor="middle">600+</text>
-        <text y="28" font-family="Pretendard, sans-serif" font-size="10" fill="rgba(255,255,255,0.6)" text-anchor="middle">Pro-Agent</text>
-        <text y="80" font-family="Pretendard, sans-serif" font-size="11" fill="#C5F82A" text-anchor="middle" font-weight="500">시니어 직접 고용</text>
-      </g>
-      
-      <!-- 화살표 1 -->
-      <g transform="translate(280, 140)">
-        <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-        <path d="M 56 -4 L 62 0 L 56 4" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-      </g>
-      
-      <!-- Step 2: 한국노인인력개발원 협약 -->
-      <g transform="translate(440, 140)">
-        <rect x="-70" y="-50" width="140" height="100" rx="2" fill="rgba(0,217,255,0.04)" stroke="#00D9FF" stroke-width="1.2"/>
-        <rect x="-64" y="-44" width="128" height="88" rx="1" fill="none" stroke="rgba(0,217,255,0.3)" stroke-width="0.5" stroke-dasharray="1 2"/>
-        <text y="-30" font-family="JetBrains Mono, monospace" font-size="9" fill="#00D9FF" text-anchor="middle" letter-spacing="0.15em">STEP 02</text>
-        <text y="-8" font-family="Pretendard, sans-serif" font-size="14" font-weight="600" fill="#00D9FF" text-anchor="middle">한국노인인력개발원</text>
-        <text y="12" font-family="Pretendard, sans-serif" font-size="10" fill="rgba(255,255,255,0.5)" text-anchor="middle">PARTNERSHIP</text>
-        <line x1="-30" y1="22" x2="30" y2="22" stroke="rgba(0,217,255,0.3)" stroke-width="0.5"/>
-        <text y="36" font-family="JetBrains Mono, monospace" font-size="8.5" fill="rgba(255,255,255,0.6)" text-anchor="middle">운영 모델 검증</text>
-        <text y="80" font-family="Pretendard, sans-serif" font-size="11" fill="#00D9FF" text-anchor="middle" font-weight="500">제3자 협약</text>
-      </g>
-      
-      <!-- 화살표 2 -->
-      <g transform="translate(540, 140)">
-        <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-        <path d="M 56 -4 L 62 0 L 56 4" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-      </g>
-      
-      <!-- Step 3: KBS 방영 -->
-      <g transform="translate(680, 140)">
-        <rect x="-66" y="-50" width="132" height="100" rx="2" fill="rgba(255,181,71,0.04)" stroke="#FFB547" stroke-width="1.2"/>
-        <text y="-30" font-family="JetBrains Mono, monospace" font-size="9" fill="#FFB547" text-anchor="middle" letter-spacing="0.15em">STEP 03</text>
-        <text y="-8" font-family="Pretendard, sans-serif" font-size="14" font-weight="600" fill="#FFB547" text-anchor="middle">KBS 생로병사</text>
-        <text y="12" font-family="Pretendard, sans-serif" font-size="10" fill="rgba(255,255,255,0.5)" text-anchor="middle">MEDIA</text>
-        <line x1="-30" y1="22" x2="30" y2="22" stroke="rgba(255,181,71,0.3)" stroke-width="0.5"/>
-        <text y="36" font-family="JetBrains Mono, monospace" font-size="8.5" fill="rgba(255,255,255,0.6)" text-anchor="middle">사례 방영</text>
-        <text y="80" font-family="Pretendard, sans-serif" font-size="11" fill="#FFB547" text-anchor="middle" font-weight="500">공영방송 검증</text>
-      </g>
-      
-      <!-- 화살표 3 -->
-      <g transform="translate(770, 140)">
-        <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-        <path d="M 56 -4 L 62 0 L 56 4" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-      </g>
-      
-      <!-- Step 4: 메리츠 보험 -->
-      <g transform="translate(910, 140)">
-        <rect x="-66" y="-50" width="132" height="100" rx="2" fill="rgba(0,217,255,0.04)" stroke="#00D9FF" stroke-width="1.2"/>
-        <text y="-30" font-family="JetBrains Mono, monospace" font-size="9" fill="#00D9FF" text-anchor="middle" letter-spacing="0.15em">STEP 04</text>
-        <text y="-8" font-family="Pretendard, sans-serif" font-size="14" font-weight="600" fill="#00D9FF" text-anchor="middle">메리츠 파트너스</text>
-        <text y="12" font-family="Pretendard, sans-serif" font-size="10" fill="rgba(255,255,255,0.5)" text-anchor="middle">INSURANCE</text>
-        <line x1="-30" y1="22" x2="30" y2="22" stroke="rgba(0,217,255,0.3)" stroke-width="0.5"/>
-        <text y="36" font-family="JetBrains Mono, monospace" font-size="8.5" fill="rgba(255,255,255,0.6)" text-anchor="middle">단체보험 흡수</text>
-        <text y="80" font-family="Pretendard, sans-serif" font-size="11" fill="#00D9FF" text-anchor="middle" font-weight="500">노무 리스크 차단</text>
-      </g>
-      
-      <!-- 화살표 4 -->
-      <g transform="translate(1000, 140)">
-        <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-        <path d="M 56 -4 L 62 0 L 56 4" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-      </g>
-      
-      <!-- Step 5: KIPRIS 특허 4건 - 인장 (도장 모양) -->
-      <g transform="translate(1160, 140)">
-        <circle r="56" fill="rgba(255,90,111,0.06)" stroke="#FF5A6F" stroke-width="1.5"/>
-        <circle r="48" fill="none" stroke="rgba(255,90,111,0.4)" stroke-width="0.6"/>
-        <circle r="42" fill="none" stroke="rgba(255,90,111,0.2)" stroke-width="0.4"/>
-        <text y="-26" font-family="JetBrains Mono, monospace" font-size="9" fill="#FF5A6F" text-anchor="middle" letter-spacing="0.15em">STEP 05</text>
-        <text y="-2" font-family="Instrument Serif, serif" font-style="normal" font-size="20" font-weight="600" fill="#FF5A6F" text-anchor="middle">KIPRIS</text>
-        <text y="14" font-family="Pretendard, sans-serif" font-size="11" fill="#FF5A6F" text-anchor="middle" font-weight="500">특허 4건</text>
-        <line x1="-26" y1="24" x2="26" y2="24" stroke="rgba(255,90,111,0.4)" stroke-width="0.5"/>
-        <text y="36" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,0.5)" text-anchor="middle">10-2026-50085</text>
-        <text y="80" font-family="Pretendard, sans-serif" font-size="11" fill="#FF5A6F" text-anchor="middle" font-weight="500">기술 IP 확보</text>
-      </g>
-      
-      <!-- 하단 라벨 -->
-      <g font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,255,255,0.3)" letter-spacing="0.1em">
-        <text x="180" y="240" text-anchor="middle">HUMAN LAYER</text>
-        <text x="440" y="240" text-anchor="middle">GOVERNANCE LAYER</text>
-        <text x="680" y="240" text-anchor="middle">VALIDATION LAYER</text>
-        <text x="910" y="240" text-anchor="middle">RISK ABSORPTION</text>
-        <text x="1160" y="240" text-anchor="middle">IP LAYER</text>
-      </g>
-    </svg>
-    
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--mute);text-transform:uppercase">
-      <span>FIG. 02 · 신뢰 누적 흐름 · 5겹 검증 체계</span>
-      <span>VERIFIED · INSURED · PATENTED</span>
-    </div>
-  </div>
-</section>
-</template>
+<!-- (보관 콘텐츠 제거됨) -->
 
 <section class="photo-band" aria-label="검증된 안전망">
   <video class="photo-band-img" autoplay muted loop playsinline preload="metadata" aria-label="SILVERGUARD 앱을 들고 미소 짓는 한국 시니어">
@@ -2870,7 +2755,6 @@ svg text{font-style:normal !important}
       <div class="validators-list">
         <span class="validator-chip">한국노인인력개발원 협약</span>
         <span class="validator-chip">KBS 생로병사의 비밀 방영</span>
-        <span class="validator-chip">메리츠 파트너스 단체보험</span>
         <span class="validator-chip">KIPRIS 특허 4건</span>
       </div>
     </div>
@@ -2890,15 +2774,15 @@ svg text{font-style:normal !important}
         한 통의 메일이면 충분합니다. 24시간 이내에 IR 자료와 도입 시나리오를 직접 보내드립니다.
       </p>
       <div class="cta-actions">
-        <a href="mailto:contact@silverguard.co.kr" class="btn btn-primary">IR 자료 요청 <span class="arr"></span></a>
-        <a href="mailto:contact@silverguard.co.kr" class="btn btn-ghost">파일럿 도입 상담 <span class="arr"></span></a>
+        <a href="mailto:41quart@gmail.com" class="btn btn-primary">IR 자료 요청 <span class="arr"></span></a>
+        <a href="mailto:41quart@gmail.com" class="btn btn-ghost">파일럿 도입 상담 <span class="arr"></span></a>
       </div>
     </div>
     <div class="cta-side">
       <h5>QUICK CONTACT</h5>
       <div class="cta-detail">
         <div class="lbl">대표 이메일</div>
-        <div class="val"><a href="mailto:contact@silverguard.co.kr"><em>contact</em>@silverguard.co.kr</a></div>
+        <div class="val"><a href="mailto:41quart@gmail.com"><em>41quart</em>@gmail.com</a></div>
         <div class="v2">제휴 · 도입 · 미디어 문의</div>
       </div>
       <div class="cta-detail">
@@ -3013,7 +2897,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   <div class="search-modal">
     <div class="search-input-row">
       <span class="icon">⌕</span>
-      <input type="text" id="searchInput" class="search-input" placeholder="검색어 입력 (예: KIPRIS, 한국노인인력개발원, Pro-Agent, 메리츠...)" autocomplete="off" />
+      <input type="text" id="searchInput" class="search-input" placeholder="검색어 입력 (예: KIPRIS, 한국노인인력개발원, Pro-Agent, KIPRIS...)" autocomplete="off" />
       <button class="search-close" id="searchClose">ESC</button>
     </div>
     <div class="search-results" id="searchResults"></div>
@@ -3032,7 +2916,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     { t: '홈 — 도시의 사각지대를 데이터 자산으로', d: '실버가드는 AI 정밀 매칭, 다이내믹 디스패칭, 온디맨드 휴먼 센서를 결합한 Tech-HR 플랫폼입니다. 중대재해처벌법 시대의 노무 리스크를 구조적으로 흡수.', u: '/', m: 'home' },
     { t: '문제 — 도시의 사각지대', d: '정자교 보행교 붕괴, 중대재해처벌법, 안전신문고 11만 공공 API 신호. 5,000여 개의 위험 신호가 도시 한 단면에 살아있습니다.', u: '/#problem', m: 'home' },
     { t: '솔루션 — 공공 데이터와 시니어를 하나의 안전 자산으로', d: 'AI 정밀 매칭이 후보 시니어를 자동 추천하고, 다이내믹 디스패칭이 위험 신호에 가장 가까운 요원을 배정합니다. Human-to-Data 변환.', u: '/#solution', m: 'home' },
-    { t: '신뢰 설계 — Trust Architecture', d: '한국노인인력개발원 협약, KBS 생로병사의 비밀 방영, 메리츠 파트너스 단체보험, KIPRIS 특허 4건. 3겹 안전망.', u: '/#trust', m: 'home' },
+    { t: '신뢰 설계 — Trust Architecture', d: '한국노인인력개발원 협약, KBS 생로병사의 비밀 방영, KIPRIS 특허 4건. 3겹 안전망.', u: '/#trust', m: 'home' },
     { t: '기술 · 특허 — KIPRIS 4건 출원', d: 'KIPRIS 특허 4건: 10-2026-0050085, 10-2026-0050089, 10-2026-0050093, 10-2026-0050094. AI 매칭 알고리즘과 정렬 검증 시스템.', u: '/#technology', m: 'home' },
     { t: '실적 — 600+ Pro-Agent · 98% 자동화 · 4× 커버리지', d: '600+ 시니어 Pro-Agent 운영, 98% HWP 자동 발행, 기존 점검 대비 4배 커버리지, 11만 공공 API 통합.', u: '/#proof', m: 'home' },
     { t: '대상 — 지자체 · 시설관리 · 보험사 · 시니어', d: '지자체(중대재해 흡수), 1,336개 시설관리 업체(B2B), 보험사(단체보험 크로스셀), 1,100만 시니어 풀.', u: '/#clients', m: 'home' },
