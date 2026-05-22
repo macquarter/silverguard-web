@@ -11,6 +11,10 @@
   var MAIL_PILOT = "mailto:41quart@gmail.com?subject=" + encodeURIComponent("[실버가드] 파일럿 도입 상담");
   var MAIL_APPLY = "mailto:41quart@gmail.com?subject=" + encodeURIComponent("[실버가드] 시니어 지원/참여 문의");
 
+  /* 외부 알림 엔드포인트(Formspree 등). 값을 넣으면 접수가 이메일로도 자동 발송됩니다.
+     비워두면 기존처럼 브라우저(localStorage)에만 저장합니다. 예) "https://formspree.io/f/xxxxxxx" */
+  var LEAD_ENDPOINT = "";
+
   /* ---------------- 지식 베이스 ---------------- */
   /* kw: 일반 키워드, strong: 가중치 높은 핵심 키워드(특정 의도를 강하게 지목) */
   var KB = [
@@ -195,13 +199,36 @@
     for(var j=0;j<toks.length;j++){ if(!NAME_STOP[toks[j]] && toks[j].length<=4) return toks[j]; }
     return "";
   }
+  function postLead(payload){
+    if(!LEAD_ENDPOINT) return;            // 엔드포인트 미설정 → 발송 안 함(무해)
+    try{
+      fetch(LEAD_ENDPOINT, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json", "Accept":"application/json" },
+        body:JSON.stringify(payload)
+      }).catch(function(){});
+    }catch(e){}
+  }
   function saveLead(msg, c, kind, name){
+    var rec={ msg:msg, name:name||"", email:c.email||"", phone:c.phone||"", kind:kind||"inquiry", t:new Date().toISOString(), st:"new" };
     try{
       var key="sg_leads";
       var arr=JSON.parse(localStorage.getItem(key)||"[]");
-      arr.push({ msg:msg, name:name||"", email:c.email, phone:c.phone, kind:kind||"inquiry", t:new Date().toISOString(), st:"new" });
+      arr.push(rec);
       localStorage.setItem(key, JSON.stringify(arr.slice(-200)));
     }catch(e){}
+    var isApply=(kind==="apply");
+    postLead({
+      _subject: isApply ? "[실버가드] 🙋 시니어 지원 접수" : "[실버가드] 상담 연락처 접수",
+      "유형": isApply ? "시니어 지원" : "상담 문의",
+      "성함": rec.name||"(미입력)",
+      "연락처": rec.phone||rec.email||"(미입력)",
+      "전화": rec.phone||"",
+      "이메일": rec.email||"",
+      "메시지": msg||"",
+      "페이지": (typeof location!=="undefined" && location.href)||"",
+      "접수시각": rec.t
+    });
   }
 
   /* ---------------- UI ---------------- */
