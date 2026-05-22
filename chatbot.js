@@ -13,7 +13,7 @@
 
   /* 외부 알림 엔드포인트(Formspree 등). 값을 넣으면 접수가 이메일로도 자동 발송됩니다.
      비워두면 기존처럼 브라우저(localStorage)에만 저장합니다. 예) "https://formspree.io/f/xxxxxxx" */
-  var LEAD_ENDPOINT = "";
+  var LEAD_ENDPOINT = "https://formspree.io/f/mjgzwnvr";
 
   /* ---------------- 지식 베이스 ---------------- */
   /* kw: 일반 키워드, strong: 가중치 높은 핵심 키워드(특정 의도를 강하게 지목) */
